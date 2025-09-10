@@ -1,0 +1,108 @@
+
+
+
+
+# LAB5 – File & Backup Automation
+
+## Objective
+Automate the backup of ⁠ .txt ⁠ files into a ⁠ backup/ ⁠ folder with timestamps in filenames.
+
+---
+
+## Script Explanation
+
+1.⁠ ⁠⁠ mkdir -p backup ⁠  
+   Creates a folder named ⁠ backup ⁠ if it does not exist.
+
+2.⁠ ⁠⁠ timestamp=$(date +"%Y%m%d_%H%M%S") ⁠  
+   Generates a timestamp (format: YYYYMMDD_HHMMSS).
+
+3.⁠ ⁠⁠ for file in *.txt; do ... done ⁠  
+   Loops through all ⁠ .txt ⁠ files in the current directory.
+
+4.⁠ ⁠⁠ basename "$file" .txt ⁠  
+   Extracts the file name without extension.
+
+5.⁠ ⁠⁠ cp "$file" "backup/${filename}_$timestamp.txt" ⁠  
+   Copies the file into ⁠ backup/ ⁠ with the timestamp appended.
+
+---
+
+## Example Run
+
+### Input
+Created two ⁠ .txt ⁠ files:
+
+file1.txt
+file2.txt
+
+
+### Command
+./backup.sh
+
+
+### Output
+Files copied into ⁠ backup/ ⁠ with timestamps:
+
+![images](./images/backup.png)
+### ques1-What is the difference between cp,mv,and rsync?
+":
+
+🔹 cp (Copy)
+Function: Makes a copy of a file or directory.
+
+The original stays in place, and a duplicate is created.
+
+Basic usage:
+
+cp source.txt destination.txt
+Options:
+
+-r → copy directories recursively.
+
+-i → ask before overwrite.
+
+-u → only copy if source is newer.
+
+✅ Good for simple duplication.
+❌ Doesn’t preserve permissions/timestamps by default (unless -p).
+
+🔹 mv (Move/Rename)
+Function: Moves or renames files/directories.
+
+The file is removed from the source location and placed at the destination.
+
+Usage:
+
+mv oldname.txt newname.txt     # Rename
+mv file.txt /home/user/docs/   # Move
+✅ Efficient because it usually just updates the filesystem pointer.
+❌ If moving across filesystems/disks, it works like cp + rm.
+
+🔹 rsync (Remote Sync)
+Function: Advanced tool for synchronizing files/directories between locations (local or remote).
+
+Usage:
+
+rsync -avh source/ backup/
+Features:
+
+Incremental → only copies changed parts, not the whole file.
+
+Remote support → can sync via SSH to another computer.
+
+Preserves permissions, timestamps, symbolic links, etc.
+
+Useful for backups and mirroring.
+
+✅ Best for efficient backups & syncing.
+❌ More complex than cp or mv.
+
+### ques2-How can you schedule scripts to run automatically?
+
+".
+
+🔹 3. Using at (One-time Scheduling)
+Run a script once at a specific time:
+
+echo "/home/user/backup.sh" "
